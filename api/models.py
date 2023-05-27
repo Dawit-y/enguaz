@@ -11,15 +11,6 @@ class Adminstration(models.Model):
     def __str__(self) :
         return f'{self.user.first_name} works in {self.company_name}'
     
-class Worker(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.CharField(max_length=250)
-    station = models.CharField(max_length=250)
-    phone = models.CharField(max_length=13)
-    photo = models.ImageField(upload_to="profile_pic", default="default.jpg")
-    def __str__(self) :
-        return f'{self.user.first_name} works at {self.station}'
-    
 class Company(models.Model):
     company_name = models.CharField(max_length=250)
     web_link = models.CharField(max_length=250)
@@ -28,7 +19,16 @@ class Company(models.Model):
 
     def __str__(self) -> str:
         return self.company_name
-    
+
+class Worker(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=250)
+    station = models.CharField(max_length=250)
+    phone = models.CharField(max_length=13)
+    photo = models.ImageField(upload_to="profile_pic", default="default.jpg")
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="company_worker")
+    def __str__(self) :
+        return f'{self.user.first_name} works at {self.station}'
 class Bus(models.Model):
     license_plate = models.CharField(max_length=250)
     driver = models.CharField(max_length=250)

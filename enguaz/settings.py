@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -40,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'djoser',
+    'drf_spectacular'
+ 
 ]
 
 MIDDLEWARE = [
@@ -127,3 +131,30 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+REST_FRAMEWORK =  {
+    'COERCE_DECIMAL_TO_STRING' : False,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        
+    ),
+    'DATETIME_FORMAT': '%B %d, %Y T %H:%M:%S ',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Enguaz API',
+}
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),   
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+DJOSER = {
+    'SERIALIZERS': {
+       'user_create': 'api.serializers.UserCreateSerializer',
+       'current_user': 'api.serializers.UserSerializer',
+    }
+}
