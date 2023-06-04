@@ -1,13 +1,22 @@
 from django.contrib import admin
 from .models import *
-# Register your models here.
-
-
-
 
 admin.site.register(Adminstration)
 admin.site.register(Worker)
 admin.site.register(Company)
-admin.site.register(Bus)
 admin.site.register(Ticket)
-admin.site.register(AvailableBus)
+admin.site.register(Customer)
+admin.site.register(Station)
+
+@admin.register(Bus)
+class BusAdmin(admin.ModelAdmin):
+    list_display = ['license_plate', 'driver', 'company']
+
+@admin.register(AvailableBus)
+class AvailableBusAdmin(admin.ModelAdmin):
+    list_display = ['source', 'destination', 'date']
+
+
+@admin.register(Seat)
+class Seat(admin.ModelAdmin):
+    list_display = ['seat_number', 'bus']
